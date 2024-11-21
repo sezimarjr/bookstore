@@ -21,6 +21,9 @@ class CategoryViewSet(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         category_data = json.loads(response.content)
 
+        if isinstance(category_data, dict) and 'results' in category_data:
+            category_data = category_data['results']
+
         self.assertEqual(category_data[0]["title"], self.category.title)
 
     def test_create_category(self):
