@@ -30,12 +30,16 @@ class TestOrderViewSet(APITestCase):
 
         order_data = json.loads(response.content)
 
-        # Valida que a resposta é uma lista
-        self.assertIsInstance(order_data, list)
-        self.assertGreater(len(order_data), 0)
+        # Certifica-se de que order_data é um dicionário contendo a chave 'results'
+        self.assertIn("results", order_data)
+        self.assertIsInstance(order_data["results"], list)
+
+        # Extrai os pedidos da chave 'results'
+        orders = order_data["results"]
+        self.assertGreater(len(orders), 0)
 
         # Pega o primeiro pedido
-        first_order = order_data[0]
+        first_order = orders[0]
         self.assertIn("product", first_order)
         self.assertIsInstance(first_order["product"], list)
         self.assertGreater(len(first_order["product"]), 0)
