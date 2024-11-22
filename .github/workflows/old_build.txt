@@ -11,6 +11,17 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    services:
+      # Adding a PostgreSQL service
+      db:
+        image: postgres:16
+        ports:
+          - 5434:5432
+        env:
+          POSTGRES_USER: bookstore_dev
+          POSTGRES_PASSWORD: bookstore_dev
+          POSTGRES_DB: bookstore_dev_db
+
     steps:
       - uses: actions/checkout@v2
 
@@ -19,20 +30,24 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
+      - name: Install Docker Compose
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker-compose
+
       - name: Install poetry
         run: |
           python -m ensurepip
           python -m pip install --upgrade pip
           python -m pip install --upgrade poetry
 
-      - name: Set environment variables
-        run: |
-          echo "DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1" >> $GITHUB_ENV
-
       - name: Install dependencies
         shell: bash
         run: poetry install
 
-      - name: Test
-        run: |
-          poetry run python manage.py test
+      # Start Docker Compose and run tests within the container
+      - name: Start Docker Compose services
+        run: docker-compose up -d --build
+
+      - name: Run Tests
+        run: docker-compose exec -T web python manage.py test
