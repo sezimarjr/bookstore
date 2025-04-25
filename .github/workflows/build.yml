@@ -32,7 +32,7 @@ jobs:
       - name: Install dependencies
         shell: bash
         run: |
-          poetry lock --no-update
+          poetry lock 
           poetry install
 
       - name: Test

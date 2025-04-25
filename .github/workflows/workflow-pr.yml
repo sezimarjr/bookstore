@@ -14,7 +14,7 @@ jobs:
         run: |
           pip install -U pip
           pip install poetry
-          poetry lock --no-update
+          poetry lock 
           poetry install
         env:
           POETRY_VIRTUALENVS_CREATE: false
