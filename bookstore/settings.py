@@ -26,8 +26,6 @@ SECRET_KEY = 'django-insecure-(ud$xrm8dlro%8f!q1z6&(5dy#+&s*lsxo3%7%&l4#bevda6)g
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -65,7 +63,7 @@ ROOT_URLCONF = 'bookstore.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'bookstore', 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -151,4 +149,5 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     ],
 }
-ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "").split(" ")
+ALLOWED_HOSTS = ['localhost', '127.0.0.1',
+                 'ebac-bookstore-api.herokuapp.com', 'sezimarjr.pythonanywhere.com']

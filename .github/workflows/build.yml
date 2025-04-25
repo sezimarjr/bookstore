@@ -31,7 +31,9 @@ jobs:
 
       - name: Install dependencies
         shell: bash
-        run: poetry install
+        run: |
+          poetry lock --no-update
+          poetry install
 
       - name: Test
         run: |
